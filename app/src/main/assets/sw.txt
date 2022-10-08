@@ -1,0 +1,5 @@
+admin#user
+990256#password
+81.25.229.50#addres
+8888#port
+
