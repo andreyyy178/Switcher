@@ -1,27 +1,23 @@
 package com.example.switcher.api
 
-import okhttp3.OkHttpClient
+//Retrofit is used to get the status of the system from an xml file
+//Base URL is required to build a retrofit instance. At runtime it will be replaced with the
+//user's URL from assets sw.txt file
+
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
-private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+private const val BASE_URL_PLACEHOLDER = "https://jsonplaceholder.typicode.com/"
 object RetrofitInstance {
 
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(HeaderInterceptor(""))
-        .build()
-
-    /**
-     * Use the Retrofit builder to build a retrofit object using a Moshi converter.
-     */
     private val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_URL_PLACEHOLDER)
             .addConverterFactory(SimpleXmlConverterFactory.create())
             .build()
     }
 
-    val api: SwitcherService by lazy {
-        retrofit.create(SwitcherService::class.java)
+    val api: SwitcherApi by lazy {
+        retrofit.create(SwitcherApi::class.java)
     }
 }
