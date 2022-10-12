@@ -6,35 +6,122 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewSyncLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewSyncLabel" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="textViewError0,textViewError1,textViewError2,textViewError3,textViewError4"
+        tools:visibility="gone" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/progressGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="progressBar0,progressBar1,progressBar2,progressBar3,progressBar4,progressBar,textViewSyncLabel" />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/switch1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch1" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/switch2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch2" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/switch3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch3" />
+
+    <ProgressBar
+        android:id="@+id/progressBar4"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/switch4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch4" />
+
+    <ProgressBar
+        android:id="@+id/progressBar0"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/switch0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch0" />
+
     <TextView
         android:id="@+id/textViewTitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Температура"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="32sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSensorLabel" />
 
     <Switch
-        android:id="@+id/switch4"
+        android:id="@+id/switch1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="8dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewLabel4"
+        app:layout_constraintBottom_toBottomOf="@+id/label1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewLabel4" />
+        app:layout_constraintTop_toTopOf="@+id/label1" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/label2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/label2" />
 
     <Switch
         android:id="@+id/switch3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="8dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
         android:textStyle="italic"
@@ -43,22 +130,33 @@
         app:layout_constraintTop_toTopOf="@+id/textViewLabel3" />
 
     <Switch
-        android:id="@+id/switch2"
+        android:id="@+id/switch4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="8dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/label2"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewLabel4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/label2" />
+        app:layout_constraintTop_toTopOf="@+id/textViewLabel4" />
+
+    <Switch
+        android:id="@+id/switch0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewSensorLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewSensorLabel" />
 
     <TextView
         android:id="@+id/textViewLabel4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Тыл"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -70,7 +168,7 @@
         android:id="@+id/textViewLabel3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Правое крыло"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -82,7 +180,7 @@
         android:id="@+id/label2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Фасад"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -90,40 +188,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label1" />
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:minWidth="48dp"
-        android:minHeight="48dp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/label1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/label1" />
-
     <TextView
         android:id="@+id/label1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="Левое крыло"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
-    <Switch
-        android:id="@+id/switch0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:minWidth="48dp"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewSensorLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewSensorLabel" />
 
     <View
         android:id="@+id/divider2"
@@ -141,11 +217,11 @@
         android:id="@+id/textViewTitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Освещение"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="32sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -154,6 +230,8 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +241,7 @@
         android:id="@+id/textViewTemp1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="- - - ºC"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -170,8 +249,10 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@+id/textViewTemp2"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle2" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle2"
+        tools:text="23.9" />
 
     <TextView
         android:id="@+id/textViewTemp2"
@@ -184,6 +265,7 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@+id/textViewTemp3"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/textViewTemp1"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle2" />
 
@@ -197,6 +279,7 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@+id/textViewTemp4"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/textViewTemp2"
         app:layout_constraintTop_toTopOf="@+id/textViewTemp2" />
 
@@ -204,53 +287,33 @@
         android:id="@+id/textViewTemp4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:text="- - - ºC"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="18sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/textViewTemp3"
         app:layout_constraintTop_toTopOf="@+id/textViewTemp3" />
 
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTemp2" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider5" />
-
     <TextView
-        android:id="@+id/textViewSynchLabel"
+        android:id="@+id/textViewSyncLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="100dp"
         android:text="Синхронизаия..."
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTemp1" />
 
     <TextView
         android:id="@+id/textViewSensorLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="Датчик освещеноти 🌞/🌚"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -260,62 +323,150 @@
 
     <Button
         android:id="@+id/buttonTurnAllOn"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="Включить"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonAllOff"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="155dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:text="Вкл"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/buttonAllOff" />
 
     <Button
         android:id="@+id/buttonAllOff"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:text=" Выключить"
+        android:layout_width="155dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text=" Выкл"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle1" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewHeaderLabel1" />
 
     <TextView
         android:id="@+id/textViewHeaderLabel1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="Всё освещние"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAllOff"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle1" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewStatus" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="1dp"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="@+id/divider4"
-        app:layout_constraintEnd_toStartOf="@+id/buttonTurnAllOn"
-        app:layout_constraintStart_toEndOf="@+id/buttonAllOff"
-        app:layout_constraintTop_toTopOf="@+id/buttonTurnAllOn" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonTurnAllOn"
+        app:layout_constraintVertical_bias="0.285" />
 
     <TextView
         android:id="@+id/textViewHeaderLabel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:text="Автоматическое упрвление"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintBottom_toTopOf="@+id/textViewSensorLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/GroupLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTemp2" />
 
+    <Button
+        android:id="@+id/buttonRefresh"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_baseline_refresh_24"
+        android:text="Получить состояние"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewSyncLabel"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+    <TextView
+        android:id="@+id/textViewError0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:text="❗"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="@+id/switch0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch0" />
+
+    <TextView
+        android:id="@+id/textViewError1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:text="❗"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="@+id/switch1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch1" />
+
+    <TextView
+        android:id="@+id/textViewError2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:text="❗"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="@+id/switch2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch2" />
+
+    <TextView
+        android:id="@+id/textViewError3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:text="❗"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="@+id/switch3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch3" />
+
+    <TextView
+        android:id="@+id/textViewError4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:text="❗"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="@+id/switch4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch4" />
+
+    <TextView
+        android:id="@+id/textViewStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Загрузка..."
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#6200EA"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle1"
+        tools:text="Connected" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
