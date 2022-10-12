@@ -1,6 +1,6 @@
 package com.example.switcher.models
 
-//Example response:
+//Example response 0 means ON
 /*<response>
 <out0>1</out0>
 <out1>1</out1>
@@ -48,40 +48,40 @@ import org.simpleframework.xml.Path
 import org.simpleframework.xml.Root
 
 @Root(name = "response", strict = false)
-data class SwitcherStatus  @JvmOverloads constructor (
+data class Switcher  @JvmOverloads constructor (
     @field:Element(name = "out0")
     @param:Element(name = "out0")
-    var out0: Boolean? = true,
+    var out0: Int = 1,
 
     @field:Element(name = "out1")
     @param:Element(name = "out1")
-    var out1: Boolean? = true,
+    var out1: Int = 1,
 
     @field:Element(name = "out2")
     @param:Element(name = "out2")
-    var out2: Boolean? = true,
+    var out2: Int = 1,
 
     @field:Element(name = "out3")
     @param:Element(name = "out3")
-    var out3: Boolean? = true,
+    var out3: Int = 1,
 
     @field:Element(name = "out4")
     @param:Element(name = "out4")
-    var out4: Boolean? = true,
+    var out4: Int = 1,
 
     @field:Element(name = "out5")
     @param:Element(name = "out5")
-    var out5: Boolean? = true,
+    var out5: Int = 1,
 
     @field:Element(name = "ia10")
     @param:Element(name = "ia10")
-    var ia0: String? = "---",
+    var ia0: String = "---",
 
     @field:Element(name = "ia12")
     @param:Element(name = "ia12")
-    var ia12: String? = "---",
+    var ia12: String = "---",
 
     @field:Element(name = "ia13")
     @param:Element(name = "ia13")
-    var ia13: String? = "---",
+    var ia13: String = "---",
     )

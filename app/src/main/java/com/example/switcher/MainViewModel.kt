@@ -1,22 +1,27 @@
 package com.example.switcher
 
-
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
 import com.example.switcher.api.RetrofitInstance
-import com.example.switcher.models.SwitcherStatus
+import com.example.switcher.api.VolleySingleton
+import com.example.switcher.models.Switcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.lang.Exception
+
 
 private const val TAG = "MainViewModel"
-class MainViewModel(var fullUrl: String, var authHeader: String) : ViewModel()  {
+private const val SWITCHER_STATUS_PATH : String = "st0.xml"
+class MainViewModel(var baseUrl: String, var authHeader: String) : ViewModel()  {
 
-    private val _SwitcherStatus = MutableLiveData<SwitcherStatus>()
-    val switcherStatus: LiveData<SwitcherStatus>
-        get() = _SwitcherStatus
+    private val _Switcher = MutableLiveData<Switcher>()
+    val switcher: LiveData<Switcher>
+        get() = _Switcher
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
@@ -26,27 +31,73 @@ class MainViewModel(var fullUrl: String, var authHeader: String) : ViewModel()  
     val isError: LiveData<Boolean>
         get() = _isError
 
+    private val _isStateUnknown = MutableLiveData(false)
+    val isStateUnknown: LiveData<Boolean>
+        get() = _isStateUnknown
+
+    private val _switchIdx = MutableLiveData(-1)
+    val switchIdx: LiveData<Int>
+        get() = _switchIdx
+
     init {
         getStatus()
     }
 
-    private fun getStatus() {
+    fun getStatus() {
         // Coroutine style
         viewModelScope.launch {
-            _isError.value = false
+            _isStateUnknown.value = false
             _isLoading.value = true
             try {
-                val fetchedStatus = RetrofitInstance.api.getStatus(fullUrl, authHeader)
+                val fetchedStatus = RetrofitInstance.api.getStatus(baseUrl +"lol" + SWITCHER_STATUS_PATH, authHeader)
                 Log.i(TAG, "Got status: $fetchedStatus")
-                _SwitcherStatus.value = fetchedStatus
-            } catch (e: Exception) {
-                _isError.value = true
-                Log.e(TAG, "Exception $e")
-            } finally {
+                _Switcher.value = fetchedStatus
                 _isLoading.value = false
+            } catch (e: Exception) {
+                Log.e(TAG, "Exception $e")
+                _isLoading.value = false
+                _isStateUnknown.value = true
             }
         }
     }
+
+    fun flipPower(switch: Int, isPowered: Boolean) {
+        _switchIdx.value = switch
+        _isLoading.value = true
+        _isError.value = false
+        val newState: String = when(isPowered) {
+            true -> "0"
+            false -> "1"
+        }
+
+        val builder = Uri.parse(baseUrl).buildUpon()
+            .appendPath("outs.cgi")
+            .appendQueryParameter("out$switch", newState)
+        val myUrl: String = builder.toString()
+        Log.d(TAG, "Request url: $myUrl")
+
+        val stringRequest = object: StringRequest(
+            Request.Method.GET, myUrl,
+            Response.Listener<String> { response ->
+                Log.d(TAG + "Volley Listener", "Response is: $response")
+                getStatus()
+                _switchIdx.value = -1
+            },
+            Response.ErrorListener { error ->
+                Log.e(TAG + "Volley Listener", "Response is: $error")
+                _isLoading.value = false
+                _isError.value = true
+            })
+        {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = authHeader
+                return headers
+            }
+        }
+        VolleySingleton.getInstance(MyApplication.appContext).addToRequestQueue(stringRequest)
+    }
+
 
     //Experimental
     private  fun pollStatus() {
@@ -60,5 +111,4 @@ class MainViewModel(var fullUrl: String, var authHeader: String) : ViewModel()  
             }
         }
     }
-
 }

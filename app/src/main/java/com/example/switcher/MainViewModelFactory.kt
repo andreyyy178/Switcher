@@ -3,6 +3,7 @@ package com.example.switcher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
+//For passing constructor parameters to view model
 @Suppress("UNCHECKED_CAST")
 class MainViewModelFactory(private var fullUrl: String, private var authHeader: String): ViewModelProvider.Factory {
     override fun<T: ViewModel> create(modelClass: Class<T>): T {

@@ -1,8 +1,11 @@
 package com.example.switcher
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.View
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
@@ -11,7 +14,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.switcher.api.SwitcherApi
 import com.example.switcher.databinding.ActivityMainBinding
-import com.example.switcher.models.SwitcherStatus
+import com.example.switcher.models.Switcher
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
@@ -20,11 +23,8 @@ import java.io.IOException
 import java.io.InputStream
 
 
-//outs.cgi?out0=1
-//val linkTrang = "http://81.25.229.50:8888/outs.cgi?out0=1"
-
 private const val FILE_PATH : String = "sw.txt"
-private const val SWITCH_STATUS_PATH : String = "st0.xml"
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -40,13 +40,73 @@ class MainActivity : AppCompatActivity() {
         val fromFile = getBaseUrlAndFormattedCredentialsFromAssetsTxtFile()
         val baseUrl = fromFile[0]
         val auth = fromFile[1]
-
-        val viewModelFactory = MainViewModelFactory(baseUrl + SWITCH_STATUS_PATH, auth)
+        val viewModelFactory = MainViewModelFactory(baseUrl, auth)
         viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
 
+        val switches = arrayOf(binding.switch0, binding.switch1, binding.switch2, binding.switch3, binding.switch4)
+        for((i, switch) in switches.withIndex()) {
+            switch.setOnClickListener {
+                viewModel.flipPower(i, switch.isChecked)
+            }
+        }
 
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressGroup.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.buttonRefresh.visibility = if (isLoading) View.GONE else View.VISIBLE
+            if (isLoading) {
+                binding.textViewStatus.text = "Загрузка..."
+                binding.textViewStatus.setTextColor(Color.parseColor("#FF6200EE"))
+            }
+            else {
+                binding.textViewStatus.text = "Ожидание запроса"
+                binding.textViewStatus.setTextColor(Color.parseColor("#FFBB86FC"))
+            }
+        }
+        viewModel.isError.observe(this) { isError->
+           if (isError) {
+               binding.textViewStatus.text = "Повторите запрос"
+               binding.textViewStatus.setTextColor(Color.parseColor("#FF0000"))
+               viewModel.switchIdx.observe(this) {
+                   switches[it].toggle()
+               }
+           }
+        }
+        viewModel.isStateUnknown.observe(this) { isStateUnknown->
+            if (isStateUnknown) {
+                binding.textViewStatus.text = "Состояние не известно"
+                binding.textViewStatus.setTextColor(Color.parseColor("#FFBA01"))
+            } else {
+                binding.textViewStatus.text = "Ожидание запроса"
+                binding.textViewStatus.setTextColor(Color.parseColor("#FFBB86FC"))
+            }
+        }
+        viewModel.switcher.observe(this) { switcher ->
+            binding.textViewTemp1.text = temperatureFormat(switcher.ia12)
+            binding.textViewTemp2.text = temperatureFormat(switcher.ia0)
+            binding.textViewTemp3.text = temperatureFormat(switcher.ia0)
+            binding.textViewTemp4.text = temperatureFormat(switcher.ia13)
+
+            binding.switch0.isChecked = getSwitchState(switcher.out0)
+            binding.switch1.isChecked = getSwitchState(switcher.out1)
+            binding.switch2.isChecked = getSwitchState(switcher.out2)
+            binding.switch3.isChecked = getSwitchState(switcher.out3)
+            binding.switch4.isChecked = getSwitchState(switcher.out4)
+        }
+
+        binding.buttonRefresh.setOnClickListener { viewModel.getStatus() }
+
+        binding.buttonTurnAllOn
     }
 
+    //TODO: implement data binding and binding adapters
+    private fun temperatureFormat(temperature: String): String {
+        return buildString { append(temperature).insert((temperature.length - 1), ".").append(" ºC") }
+    }
+    private fun getSwitchState(out: Int): Boolean {
+        return out != 1
+    }
+
+    //Want to drop a text file with network configuration for each employee to folder into assets as sw.txt
     private fun readFileFromAssets(filename: String): String {
         fileReadError = false
         Log.i("MainActivity", "read file called")
@@ -65,7 +125,6 @@ class MainActivity : AppCompatActivity() {
         }
         return myOutput
     }
-
     private fun getBaseUrlAndFormattedCredentialsFromAssetsTxtFile(): Array<String> {
         //auth format: "Basic <<Base64(username:password)>>
         val str = readFileFromAssets(FILE_PATH)
@@ -101,22 +160,23 @@ class MainActivity : AppCompatActivity() {
 
         queue.add(stringRequest)
     }
-
     private fun simpleRetrofitStatusRequestViaCallback() {
         val retrofit = Retrofit.Builder().baseUrl("http://81.25.229.50:8888").addConverterFactory(SimpleXmlConverterFactory.create())
             .build()
         val switcherService = retrofit.create(SwitcherApi::class.java)
         switcherService.getStatusViaCallback("http://81.25.229.50:8888/st0.xml", "Basic YWRtaW46OTkwMjU2")
-            ?.enqueue(object  : Callback<SwitcherStatus> {
-                override fun onResponse(call: Call<SwitcherStatus>, response: retrofit2.Response<SwitcherStatus>) {
+            ?.enqueue(object  : Callback<Switcher> {
+                override fun onResponse(call: Call<Switcher>, response: retrofit2.Response<Switcher>) {
                     Log.i("Retrofit", "onResponse $response")
                 }
 
-                override fun onFailure(call: Call<SwitcherStatus>, t: Throwable) {
+                override fun onFailure(call: Call<Switcher>, t: Throwable) {
                     Log.i("Retrofit", "onFailure $t")
                 }
             })
     }
 
 }
+
+
 
