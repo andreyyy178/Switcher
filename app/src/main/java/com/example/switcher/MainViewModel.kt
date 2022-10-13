@@ -23,6 +23,10 @@ class MainViewModel(var baseUrl: String, var authHeader: String) : ViewModel()  
     val switcher: LiveData<Switcher>
         get() = _Switcher
 
+    private val _switchesStates: MutableLiveData<List<Int>> = MutableLiveData(mutableListOf(1,1,1,1,1))
+    val switchesStates: LiveData<List<Int>>
+        get() = _switchesStates
+
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
@@ -49,6 +53,8 @@ class MainViewModel(var baseUrl: String, var authHeader: String) : ViewModel()  
                 val fetchedStatus = RetrofitInstance.api.getStatus(baseUrl + SWITCHER_STATUS_PATH, authHeader)
                 Log.i(TAG, "Got status: $fetchedStatus")
                 _Switcher.value = fetchedStatus
+                val list = mutableListOf<Int>(fetchedStatus.out0, fetchedStatus.out1, fetchedStatus.out2, fetchedStatus.out3, fetchedStatus.out4)
+                _switchesStates.value = list
                 _isLoading.value = false
             } catch (e: Exception) {
                 Log.e(TAG, "Exception $e")
@@ -63,35 +69,160 @@ class MainViewModel(var baseUrl: String, var authHeader: String) : ViewModel()  
             true -> "0"
             false -> "1"
         }
-        switchRequestBuilder(switch, newState)
+        volleyRequest(switchQueryBuilder(switch, newState))
     }
 
-    fun powerOn(switch: Int, isPowered: Boolean) {
+    fun powerOn(switch: Int) {
         //0 turns ON
-        var newState = "0"
-        switchRequestBuilder(switch, newState)
+        switchQueryBuilder(switch, "0")
     }
 
-    fun powerOff(switch: Int, isPowered: Boolean) {
+    fun powerOff(switch: Int) {
         //1 turns OFF
-        var newState = "1"
-        switchRequestBuilder(switch, newState)
+        switchQueryBuilder(switch, "1")
     }
 
-    private fun switchRequestBuilder(switch: Int, newState: String) {
+    fun powerAllOn(){
+        volleyRequestChain("0", "1")
+    }
+
+    fun powerAllOff(){
+        volleyRequestChain("1", "1")
+    }
+
+    private fun switchQueryBuilder(switch: Int, newState: String): String {
         val builder = Uri.parse(baseUrl).buildUpon()
             .appendPath("outs.cgi")
             .appendQueryParameter("out$switch", newState)
-        val myUrl: String = builder.toString()
-
-        volleyRequest(myUrl)
+        return builder.toString()
     }
     private fun volleyRequest(myUrl: String) {
+        _isLoading.value = true
         _isError.value = false
         val stringRequest = object : StringRequest(
             Request.Method.GET, myUrl,
             Response.Listener<String> { response ->
+                val responseList = response.replace(Regex("""[\[,\]]"""), "").map { it - '0' }
+                _switchesStates.value = responseList
+                _isLoading.value = false
+                _isStateUnknown.value = false
+            },
+            Response.ErrorListener { error ->
+                Log.e(TAG + "Volley Listener", "Response is: $error")
+                _isError.value = true
+            }) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = authHeader
+                return headers
+            }
+        }
+        VolleySingleton.getInstance(MyApplication.appContext).addToRequestQueue(stringRequest)
+    }
+
+    private fun volleyRequestChain(newState: String, lightSensorState: String) {
+        _isLoading.value = true
+
+       if (_isError.value == true) {
+          return
+       }
+
+        val builder = Uri.parse(baseUrl).buildUpon()
+            .appendPath("outs.cgi")
+            .appendQueryParameter("out0", lightSensorState)
+        val myUrl: String = builder.toString()
+
+        val stringRequest = object : StringRequest(
+            Request.Method.GET, myUrl,
+            Response.Listener<String> { response ->
                 Log.d(TAG + "Volley Listener", "Response is: $response")
+                val builder = Uri.parse(baseUrl).buildUpon()
+                    .appendPath("outs.cgi")
+                    .appendQueryParameter("out1", newState)
+                val myUrl: String = builder.toString()
+                Log.i("request url","$myUrl")
+                val stringRequest = object : StringRequest(
+                    Request.Method.GET, myUrl,
+                    Response.Listener<String> { response ->
+                        Log.d(TAG + "Volley Listener", "Response is: $response")
+                        val builder = Uri.parse(baseUrl).buildUpon()
+                            .appendPath("outs.cgi")
+                            .appendQueryParameter("out2", newState)
+                        val myUrl: String = builder.toString()
+                        Log.i("request url","$myUrl")
+                        val stringRequest = object : StringRequest(
+                            Request.Method.GET, myUrl,
+                            Response.Listener<String> { response ->
+                                Log.d(TAG + "Volley Listener", "Response is: $response")
+                                val builder = Uri.parse(baseUrl).buildUpon()
+                                    .appendPath("outs.cgi")
+                                    .appendQueryParameter("out3", newState)
+                                val myUrl: String = builder.toString()
+                                Log.i("request url","$myUrl")
+                                val stringRequest = object : StringRequest(
+                                    Request.Method.GET, myUrl,
+                                    Response.Listener<String> { response ->
+                                        Log.d(TAG + "Volley Listener", "Response is: $response")
+                                        val builder = Uri.parse(baseUrl).buildUpon()
+                                            .appendPath("outs.cgi")
+                                            .appendQueryParameter("out4", newState)
+                                        val myUrl: String = builder.toString()
+                                        Log.i("request url","$myUrl")
+                                        val stringRequest = object : StringRequest(
+                                            Request.Method.GET, myUrl,
+                                            Response.Listener<String> { response ->
+                                                Log.d(TAG + "Volley Listener", "Response is: $response")
+                                                val responseList = response.replace(Regex("""[\[,\]]"""), "").map { it - '0' }
+                                                _switchesStates.value = responseList
+                                                _isLoading.value = false
+                                            },
+                                            Response.ErrorListener { error ->
+                                                Log.e(TAG + "Volley Listener", "Response is: $error")
+                                                _isError.value = true
+                                            }) {
+                                            override fun getHeaders(): MutableMap<String, String> {
+                                                val headers = HashMap<String, String>()
+                                                headers["Authorization"] = authHeader
+                                                return headers
+                                            }
+                                        }
+                                        VolleySingleton.getInstance(MyApplication.appContext).addToRequestQueue(stringRequest)
+                                    },
+                                    Response.ErrorListener { error ->
+                                        Log.e(TAG + "Volley Listener", "Response is: $error")
+                                        _isError.value = true
+                                    }) {
+                                    override fun getHeaders(): MutableMap<String, String> {
+                                        val headers = HashMap<String, String>()
+                                        headers["Authorization"] = authHeader
+                                        return headers
+                                    }
+                                }
+                                VolleySingleton.getInstance(MyApplication.appContext).addToRequestQueue(stringRequest)
+                            },
+                            Response.ErrorListener { error ->
+                                Log.e(TAG + "Volley Listener", "Response is: $error")
+                                _isError.value = true
+                            }) {
+                            override fun getHeaders(): MutableMap<String, String> {
+                                val headers = HashMap<String, String>()
+                                headers["Authorization"] = authHeader
+                                return headers
+                            }
+                        }
+                        VolleySingleton.getInstance(MyApplication.appContext).addToRequestQueue(stringRequest)
+                    },
+                    Response.ErrorListener { error ->
+                        Log.e(TAG + "Volley Listener", "Response is: $error")
+                        _isError.value = true
+                    }) {
+                    override fun getHeaders(): MutableMap<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers["Authorization"] = authHeader
+                        return headers
+                    }
+                }
+                VolleySingleton.getInstance(MyApplication.appContext).addToRequestQueue(stringRequest)
             },
             Response.ErrorListener { error ->
                 Log.e(TAG + "Volley Listener", "Response is: $error")

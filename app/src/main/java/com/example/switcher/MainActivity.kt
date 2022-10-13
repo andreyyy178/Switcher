@@ -56,15 +56,24 @@ class MainActivity : AppCompatActivity() {
             binding.textViewTemp3.text = temperatureFormat(switcher.ia0)
             binding.textViewTemp4.text = temperatureFormat(switcher.ia13)
 
-            binding.switch0.isChecked = getSwitchState(switcher.out0)
-            binding.switch1.isChecked = getSwitchState(switcher.out1)
-            binding.switch2.isChecked = getSwitchState(switcher.out2)
-            binding.switch3.isChecked = getSwitchState(switcher.out3)
-            binding.switch4.isChecked = getSwitchState(switcher.out4)
+//            binding.switch0.isChecked = getSwitchState(switcher.out0)
+//            binding.switch1.isChecked = getSwitchState(switcher.out1)
+//            binding.switch2.isChecked = getSwitchState(switcher.out2)
+//            binding.switch3.isChecked = getSwitchState(switcher.out3)
+//            binding.switch4.isChecked = getSwitchState(switcher.out4)
+        }
+
+        viewModel.switchesStates.observe(this) { switchesStates ->
+            binding.switch0.isChecked = getSwitchState(switchesStates[0])
+            binding.switch1.isChecked = getSwitchState(switchesStates[1])
+            binding.switch2.isChecked = getSwitchState(switchesStates[2])
+            binding.switch3.isChecked = getSwitchState(switchesStates[3])
+            binding.switch4.isChecked = getSwitchState(switchesStates[4])
         }
 
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressGroup.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.switchesGroup.visibility = if (isLoading) View.GONE else View.VISIBLE
             binding.buttonRefresh.visibility = if (isLoading) View.GONE else View.VISIBLE
             if (isLoading) {
                 binding.textViewStatus.text = "Загрузка..."
@@ -92,12 +101,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.buttonTurnAllOn.setOnClickListener {
-            for((i, switch) in switches.withIndex()) {
-                switch.isChecked = true
-            }
+            viewModel.powerAllOn()
+
+        }
+        binding.buttonTurnAllOff.setOnClickListener {
+            viewModel.powerAllOff()
         }
 
         binding.buttonRefresh.setOnClickListener { viewModel.getStatus() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getStatus()
     }
 
     //TODO: implement data binding and binding adapters

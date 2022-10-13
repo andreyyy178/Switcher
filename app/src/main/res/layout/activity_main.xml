@@ -22,21 +22,30 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:constraint_referenced_ids="textViewError0,textViewError1,textViewError2,textViewError3,textViewError4"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/progressGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="progressBar0,progressBar1,progressBar2,progressBar3,progressBar4,progressBar,textViewSyncLabel" />
+        app:constraint_referenced_ids="progressBar0,progressBar1,progressBar2,progressBar3,progressBar4,progressBar,textViewSyncLabel"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/switchesGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="switch0,switch1,switch2,switch3,switch4"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
         style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/switch1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/switch1" />
@@ -46,7 +55,7 @@
         style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/switch2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/switch2" />
@@ -56,7 +65,7 @@
         style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/switch3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/switch3" />
@@ -66,7 +75,7 @@
         style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/switch4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/switch4" />
@@ -76,7 +85,7 @@
         style="@android:style/Widget.DeviceDefault.ProgressBar.Small.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/switch0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/switch0" />
@@ -235,7 +244,7 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAllOff" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonTurnAllOff" />
 
     <TextView
         android:id="@+id/textViewTemp1"
@@ -329,10 +338,10 @@
         android:layout_marginEnd="16dp"
         android:text="Вкл"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonAllOff" />
+        app:layout_constraintTop_toTopOf="@+id/buttonTurnAllOff" />
 
     <Button
-        android:id="@+id/buttonAllOff"
+        android:id="@+id/buttonTurnAllOff"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="155dp"
         android:layout_height="0dp"
@@ -406,7 +415,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
-        android:text="❗"
+        android:text="❔"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="@+id/switch0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -417,7 +426,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
-        android:text="❗"
+        android:text="❔"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="@+id/switch1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -428,7 +437,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
-        android:text="❗"
+        android:text="❔"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="@+id/switch2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -439,7 +448,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
-        android:text="❗"
+        android:text="❔"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="@+id/switch3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -450,7 +459,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
-        android:text="❗"
+        android:text="❔"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="@+id/switch4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -467,6 +476,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle1"
         tools:text="Connected" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
